@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Adventure</title>
+    <script type="text/javascript" src="JSConsole.js"></script>
+    <script type="text/javascript" src="Adventure.js"></script>
+    <script type="text/javascript" src="AdvGame.js"></script>
+    <script type="text/javascript" src="AdvObject.js"></script>
+    <script type="text/javascript" src="AdvPassage.js"></script>
+    <script type="text/javascript" src="AdvRoom.js"></script>
+  </head>
+  <body onload="Adventure()">
+    <div id="JSConsole" style="width:100%; height:600px; overflow:hidden">
+    </div>
+    <div style="display:none;">
+      <game id="GameData">
+        <object name="KEYS" location="InsideBuilding">
+          a set of keys
+        </object>
+        <object name="LAMP" location="BeneathGrate">
+          a brightly shining brass lamp
+        </object>
+        <object name="ROD" location="DebrisRoom">
+          a black rod with a rusty star
+        </object>
+        <object name="BIRD" location="OrangeStoneChamber1">
+          a little bird
+        </object>
+        <object name="NUGGET" location="NuggetRoom">
+          a nugget of gold
+        </object>
+        <object name="DIAMOND" location="WestBankOfFissure">
+          a sparkling diamond
+        </object>
+        <object name="COINS" location="EastSideChamber">
+          a bag of coins
+        </object>
+        <object name="EMERALD" location="EmeraldRoom">
+          an emerald the size of a plover's egg
+        </object>
+        <object name="EGGS" location="GiantRoom">
+          a nest of golden eggs
+        </object>
+        <object name="WATER" location="PLAYER">
+          a bottle of water
+        </object>
+        <object name="PLANT" location="WestPit">
+          a small plant murmuring "Water, water"
+        </object>
+        <object name="CHEST" location="PirateLair">
+          a pirate chest
+        </object>
+        <room name="OutsideBuilding" short="Outside building">
+          You are standing at the end of a road before a small brick
+          building.  A small stream flows out of the building and
+          down a gully to the south.  A road runs up a small hill
+          to the west.
+          <passage dir="WEST" room="EndOfRoad" />
+          <passage dir="UP" room="EndOfRoad" />
+          <passage dir="NORTH" room="InsideBuilding" />
+          <passage dir="IN" room="InsideBuilding" />
+          <passage dir="SOUTH" room="Valley" />
+          <passage dir="DOWN" room="Valley" />
+        </room>
+        <room name="EndOfRoad" short="End of road">
+          You are at the end of a road at the top of a small hill.
+          You can see a small building in the valley to the east.
+          <passage dir="EAST" room="OutsideBuilding" />
+          <passage dir="DOWN" room="OutsideBuilding" />
+        </room>
+        <room name="InsideBuilding" short="Inside building">
+          You are inside a building, a well house for a large spring.
+          The exit door is to the south.  There is another room to
+          the north, but the door is barred by a shimmering curtain.
+          <passage dir="SOUTH" room="OutsideBuilding" />
+          <passage dir="OUT" room="OutsideBuilding" />
+          <passage dir="NORTH" room="Curtain1" />
+          <passage dir="XYZZY" room="DebrisRoom" key="LAMP" />
+          <passage dir="XYZZY" room="Darkness1" />
+          <passage dir="PLUGH" room="Y2" key="LAMP" />
+          <passage dir="PLUGH" room="Darkness1" />
+        </room>
+        <room name="Valley" short="Valley beside a stream">
+          You are in a valley in the forest beside a stream tumbling
+          along a rocky bed.  The stream is flowing to the south.
+          <passage dir="NORTH" room="OutsideBuilding" />
+          <passage dir="UP" room="OutsideBuilding" />
+          <passage dir="SOUTH" room="SlitInRock" />
+          <passage dir="DOWN" room="SlitInRock" />
+        </room>
+        <room name="SlitInRock" short="Slit in rock">
+          At your feet all the water of the stream splashes into a
+          two-inch slit in the rock.  To the south, the streambed is
+          bare rock.
+          <passage dir="NORTH" room="Valley" />
+          <passage dir="UP" room="Valley" />
+          <passage dir="SOUTH" room="OutsideGrate" />
+          <passage dir="DOWN" room="OutsideGrate" />
+        </room>
+        <room name="OutsideGrate" short="Outside grate">
+          You are in a 20-foot depression floored with bare dirt.
+          Set into the dirt is a strong steel grate mounted in
+          concrete.  A dry streambed leads into the depression from
+          the north.
+          <passage dir="NORTH" room="SlitInRock" />
+          <passage dir="UP" room="SlitInRock" />
+          <passage dir="DOWN" room="BeneathGrate" key="KEYS" />
+          <passage dir="DOWN" room="MissingKeys" />
+        </room>
+        <room name="MissingKeys">
+          The grate is locked and you don't have any keys.
+          <passage dir="FORCED" room="OutsideGrate" />
+        </room>
+        <room name="BeneathGrate" short="Beneath grate">
+          You are in a small chamber beneath a 3x3 steel grate to
+          the surface.  A low crawl over cobbles leads inward to
+          the west.
+          <passage dir="UP" room="OutsideGrate" />
+          <passage dir="OUT" room="OutsideGrate" />
+          <passage dir="IN" room="CobbleCrawl" />
+          <passage dir="WEST" room="CobbleCrawl" />
+        </room>
+        <room name="CobbleCrawl" short="Cobble crawl">
+          You are crawling over cobbles in a low east/west passage.
+          There is a dim light to the east.
+          <passage dir="EAST" room="BeneathGrate" />
+          <passage dir="WEST" room="DebrisRoom" key="LAMP" />
+          <passage dir="WEST" room="Darkness1" />
+        </room>
+        <room name="Darkness1" short="Darkness">
+          It is now pitch dark.  If you proceed you will likely fall
+          into a pit.
+          <passage dir="EAST" room="CobbleCrawl" />
+          <passage dir="OUT" room="CobbleCrawl" />
+          <passage dir="XYZZY" room="InsideBuilding" />
+          <passage dir="PLUGH" room="InsideBuilding" />
+          <passage dir="NORTH" room="Pit" />
+          <passage dir="SOUTH" room="Pit" />
+          <passage dir="WEST" room="Pit" />
+          <passage dir="UP" room="Pit" />
+          <passage dir="DOWN" room="Pit" />
+        </room>
+        <room name="Pit">
+          You fell into a pit and broke every bone in your body!
+          <passage dir="FORCED" room="EXIT" />
+        </room>
+        <room name="DebrisRoom" short="Debris room">
+          You are in a debris room filled with stuff washed in from
+          the surface.  A low wide passage with cobbles becomes
+          plugged with mud and debris here, but an extremely narrow
+          canyon leads upward and west.  Carved on the wall is the
+          message: "Magic Word XYZZY".
+          <passage dir="EAST" room="CobbleCrawl" />
+          <passage dir="WEST" room="SlopingCanyon" />
+          <passage dir="UP" room="SlopingCanyon" />
+          <passage dir="XYZZY" room="InsideBuilding" />
+        </room>
+        <room name="SlopingCanyon" short="Sloping canyon">
+          You are in an awkward sloping east/west canyon.
+          <passage dir="EAST" room="DebrisRoom" />
+          <passage dir="DOWN" room="DebrisRoom" />
+          <passage dir="WEST" room="OrangeStoneChamber1" key="BIRD" />
+          <passage dir="WEST" room="OrangeStoneChamber2" key="ROD" />
+          <passage dir="WEST" room="OrangeStoneChamber1" />
+          <passage dir="UP" room="OrangeStoneChamber1" key="BIRD" />
+          <passage dir="UP" room="OrangeStoneChamber2" key="ROD" />
+          <passage dir="UP" room="OrangeStoneChamber1" />
+        </room>
+        <room name="OrangeStoneChamber1" short="Chamber of orange stone">
+          You are in a splendid chamber thirty feet high.  The walls
+          are frozen rivers of orange stone.  A narrow canyon and a
+          good passage exit from east and west sides of the chamber.
+          <passage dir="EAST" room="SlopingCanyon" />
+          <passage dir="WEST" room="TopOfPit" />
+        </room>
+        <room name="OrangeStoneChamber2" short="Chamber of orange stone">
+          You are in a splendid chamber thirty feet high.  The walls
+          are frozen rivers of orange stone.  A narrow canyon and a
+          good passage exit from east and west sides of the chamber.
+          High in the cavern, you see a little bird flying around
+          the rocks.  It takes one look at the black rod and quickly
+          flies out of sight.
+          <passage dir="EAST" room="SlopingCanyon" />
+          <passage dir="WEST" room="TopOfPit" />
+        </room>
+        <room name="TopOfPit" short="Top of pit">
+          At your feet is a small pit breathing traces of white mist.
+          An east passage ends here except for a small crack leading
+          on.  Rough stone steps lead into the pit.
+          <passage dir="EAST" room="OrangeStoneChamber1" key="BIRD" />
+          <passage dir="EAST" room="OrangeStoneChamber2" key="ROD" />
+          <passage dir="EAST" room="OrangeStoneChamber1" />
+          <passage dir="WEST" room="NarrowCrack" />
+          <passage dir="DOWN" room="HallOfMists" />
+        </room>
+        <room name="NarrowCrack">
+          The crack is far too small for you to follow.
+          <passage dir="FORCED" room="TopOfPit" />
+        </room>
+        <room name="HallOfMists" short="Hall of mists">
+          You are at one end of a vast hall stretching forward out of
+          sight to the west.  The hall is filled with wisps of white
+          mist swaying to and fro almost as if alive.  There are
+          passages to the north and south, and a stone stairway
+          leads upward.
+          <passage dir="UP" room="UnseenForce" key="NUGGET" />
+          <passage dir="UP" room="TopOfPit" />
+          <passage dir="WEST" room="EastBankOfFissure" />
+          <passage dir="SOUTH" room="NuggetRoom" />
+          <passage dir="NORTH" room="BirdAttacksSnake" key="BIRD" />
+          <passage dir="NORTH" room="HallOfTheMountainKing1" />
+        </room>
+        <room name="NuggetRoom" short="Nugget of gold room">
+          This is a low room with a crude note on the wall.  The
+          note says, "You won't get it up the steps."
+          <passage dir="NORTH" room="HallOfMists" />
+          <passage dir="OUT" room="HallOfMists" />
+        </room>
+        <room name="UnseenForce">
+          An unseen force blocks your way and a ghostly voice echoes:
+          "You won't get it up the steps."
+          <passage dir="FORCED" room="HallOfMists" />
+        </room>
+        <room name="EastBankOfFissure" short="East bank of fissure">
+          You are on the east bank of a fissure slicing clear across
+          the hall.  The mist is quite thick here.
+          <passage dir="EAST" room="HallOfMists" />
+          <passage dir="WAVE" room="CrystalBridgeEast" key="ROD" />
+          <passage dir="WAVE" room="WaveRodEast" />
+          <passage dir="WEST" room="BlockedByFissureEast" />
+          <passage dir="JUMP" room="FatalJump" />
+        </room>
+        <room name="BlockedByFissureEast">
+          The fissure looks too wide to cross.
+          <passage dir="FORCED" room="EastBankOfFissure" />
+        </room>
+        <room name="WaveRodEast">
+          You don't have the appropriate thing to wave.
+          <passage dir="FORCED" room="EastBankOfFissure" />
+        </room>
+        <room name="CrystalBridgeEast">
+          As you wave the rod, a cascade of crystalline sparks issues
+          from its tip which gain shape and substance over the chasm.
+          In moments, a shimmering crystal bridge spans the fissure.
+          After you cross, the bridge fades into nothingness.
+          <passage dir="FORCED" room="WestBankOfFissure" />
+        </room>
+        <room name="WestBankOfFissure" short="West bank of fissure">
+          You are on the west side of the fissure in the Hall of
+          Mists.
+          <passage dir="WEST" room="HallOfMistsWest" />
+          <passage dir="WAVE" room="CrystalBridgeWest" key="ROD" />
+          <passage dir="WAVE" room="WaveRodWest" />
+          <passage dir="EAST" room="BlockedByFissureWest" />
+          <passage dir="JUMP" room="FatalJump" />
+        </room>
+        <room name="BlockedByFissureWest">
+          The fissure looks too wide to cross.
+          <passage dir="FORCED" room="WestBankOfFissure" />
+        </room>
+        <room name="WaveRodWest">
+          You don't have the appropriate thing to wave.
+          <passage dir="FORCED" room="WestBankOfFissure" />
+        </room>
+        <room name="CrystalBridgeWest">
+          As you wave the rod, a cascade of crystalline sparks issues
+          from its tip which gain shape and substance over the chasm.
+          In moments, a shimmering crystal bridge spans the fissure.
+          After you cross, the bridge fades into nothingness.
+          <passage dir="FORCED" room="EastBankOfFissure" />
+        </room>
+        <room name="FatalJump" short="Fatal jump">
+          You make a mighty leap but fall several feet>
+          far side.  You make a few mad scrambles at the air as you
+          fall to your death on the rocks below.
+          <passage dir="FORCED" room="EXIT" />
+        </room>
+        <room name="HallOfMistsWest" short="West end of the Hall of Mists">
+          You are at the west end of Hall of Mists.  A low wide
+          crawl exits north.  To the south is a little passage
+          six feet off the floor that seems to twist sharply.
+          <passage dir="EAST" room="WestBankOfFissure" />
+          <passage dir="NORTH" room="LongCurvingPassage" />
+          <passage dir="SOUTH" room="TwistyMaze1" />
+        </room>
+        <room name="TwistyMaze1">
+          You are in a maze of twisty little passages, all alike.
+          <passage dir="WEST" room="HallOfMistsWest" />
+          <passage dir="NORTH" room="TwistyMaze2" />
+          <passage dir="SOUTH" room="TwistyMaze3" />
+        </room>
+        <room name="TwistyMaze2">
+          You are in a maze of twisty little passages, all alike.
+          <passage dir="NORTH" room="TwistyMaze4" />
+          <passage dir="EAST" room="TwistyMaze1" />
+          <passage dir="WEST" room="TwistyMaze5" />
+        </room>
+        <room name="TwistyMaze3">
+          You are in a maze of twisty little passages, all alike.
+          <passage dir="NORTH" room="TwistyMaze5" />
+          <passage dir="EAST" room="TwistyMaze6" />
+          <passage dir="WEST" room="TwistyMaze1" />
+        </room>
+        <room name="TwistyMaze4">
+          You are in a maze of twisty little passages, all alike.
+          <passage dir="SOUTH" room="TwistyMaze6" />
+          <passage dir="WEST" room="TwistyMaze2" />
+          <passage dir="EAST" room="BrinkOfPit" />
+        </room>
+        <room name="TwistyMaze5">
+          You are in a maze of twisty little passages, all alike.
+          <passage dir="SOUTH" room="TwistyMaze2" />
+          <passage dir="WEST" room="TwistyMaze3" />
+        </room>
+        <room name="TwistyMaze6">
+          You are in a maze of twisty little passages, all alike.
+          <passage dir="EAST" room="TwistyMaze3" />
+          <passage dir="WEST" room="TwistyMaze4" />
+          <passage dir="NORTH" room="TwistyMaze7" />
+        </room>
+        <room name="TwistyMaze7">
+          You are in a maze of twisty little passages, all alike.
+          <passage dir="NORTH" room="PirateLair" />
+          <passage dir="SOUTH" room="TwistyMaze6" />
+          <passage dir="WEST" room="BrinkOfPit" />
+        </room>
+        <room name="PirateLair" short="Pirate's lair">
+          You're in the pirate's lair deep in the maze.  The only
+          exit is south.
+          <passage dir="SOUTH" room="TwistyMaze7" />
+          <passage dir="OUT" room="TwistyMaze7" />
+        </room>
+        <room name="BrinkOfPit" short="Brink of pit in the maze">
+          You are on the brink of a thirty-foot pit with a massive
+          orange column down one wall.  You could climb down here
+          but you could not get back up.  The maze continues at
+          this level.
+          <passage dir="EAST" room="TwistyMaze7" />
+          <passage dir="WEST" room="TwistyMaze4" />
+          <passage dir="DOWN" room="OrangeStoneChamber1" key="BIRD" />
+          <passage dir="DOWN" room="OrangeStoneChamber2" key="ROD" />
+          <passage dir="DOWN" room="OrangeStoneChamber1" />
+        </room>
+        <room name="HallOfTheMountainKing1" short="Hall of the Mountain King">
+          You are in the Hall of the Mountain King, with passages off
+          in several directions.  A fierce green snake bars your way.
+          <passage dir="SOUTH" room="HallOfMists" />
+          <passage dir="NORTH" room="BlockedBySnake" />
+          <passage dir="EAST" room="BlockedBySnake" />
+          <passage dir="WEST" room="BlockedBySnake" />
+        </room>
+        <room name="BlockedBySnake">
+          You can't get by the snake.
+          <passage dir="FORCED" room="HallOfTheMountainKing1" />
+        </room>
+        <room name="BirdAttacksSnake">
+          As you enter the chamber, you see a fierce green snake.
+          Before you can think, the little bird flies from your
+          shoulder, attacks the green snake, and in an astounding
+          flurry drives the snake away.  The bird then flies back.
+          <passage dir="FORCED" room="HallOfTheMountainKing2" />
+        </room>
+        <room name="HallOfTheMountainKing2" short="Hall of the Mountain King">
+          You are in the Hall of the Mountain King, with passages off
+          in several directions.
+          <passage dir="SOUTH" room="HallOfMists" />
+          <passage dir="NORTH" room="LowNSPassage" />
+          <passage dir="WEST" room="WestSideChamber" />
+          <passage dir="EAST" room="EastSideChamber" />
+        </room>
+        <room name="WestSideChamber" short="West side chamber">
+          You are in the West Side Chamber of the Hall of the
+          Mountain King.  A passage continues west and up here.
+          <passage dir="EAST" room="HallOfTheMountainKing2" />
+          <passage dir="WEST" room="LongCurvingPassage" />
+          <passage dir="UP" room="LongCurvingPassage" />
+        </room>
+        <room name="EastSideChamber" short="East side chamber">
+          You are in the East Side Chamber of the Hall of the
+          Mountain King.
+          <passage dir="WEST" room="HallOfTheMountainKing2" />
+          <passage dir="OUT" room="HallOfTheMountainKing2" />
+        </room>
+        <room name="LongCurvingPassage" short="Long curving passage">
+          You are in a long passageway that curves from the east
+          to the south.
+          <passage dir="EAST" room="WestSideChamber" />
+          <passage dir="SOUTH" room="HallOfMistsWest" />
+        </room>
+        <room name="LowNSPassage" short="Low N/S passage">
+          You are in a low N/S passage with a hole in the floor.
+          <passage dir="NORTH" room="Y2" />
+          <passage dir="SOUTH" room="HallOfTheMountainKing2" />
+          <passage dir="DOWN" room="EWPassage" />
+        </room>
+        <room name="Y2" short="You're at Y2">
+          You are in a large room, with a passage to the south,
+          a passage to the west, and a wall of broken rock to the
+          east.  There is a large "Y2" on a rock in the room's
+          center.  As you enter, a hollow voice says "PLUGH".
+          <passage dir="SOUTH" room="LowNSPassage" />
+          <passage dir="PLUGH" room="TooHeavy" key="NUGGET" />
+          <passage dir="PLUGH" room="InsideBuilding" />
+          <passage dir="EAST" room="BrokenRock" />
+          <passage dir="WEST" room="WindowOnPit" />
+        </room>
+        <room name="WindowOnPit" short="Window on pit">
+          You're at a low window overlooking a huge pit, which
+          extends up out of sight.  A floor is indistinctly
+          visible over 50 feet below.  Traces of white mist
+          cover the floor of the pit, becoming thicker to the
+          left.  Marks in the dust around the window would seem
+          to indicate that someone has been here recently.
+          Directly across the pit from you and 25 feet away
+          there is a similar window in the wall of the pit.
+          You see a shadowy figure in the other window.
+          <passage dir="EAST" room="Y2" />
+          <passage dir="OUT" room="Y2" />
+          <passage dir="WAVE" room="FigureWavesBack" />
+        </room>
+        <room name="FigureWavesBack">
+          The figure waves back.  In fact, it seems to be
+          following your actions.
+          <passage dir="FORCED" room="WindowOnPit" />
+        </room>
+        <room name="TooHeavy">
+          As you utter the magic word, your surroundings begin
+          to fade in and out.  After a protracted struggle, you
+          hear a hollow voice say, "It's just too heavy."
+          <passage dir="FORCED" room="Y2" />
+        </room>
+        <room name="BrokenRock">
+          You wander around in the broken rock but don't find
+          anything interesting.
+          <passage dir="FORCED" room="Y2" />
+        </room>
+        <room name="EWPassage" short="E/W passage">
+          You are in an E/W passage.  There is a hole in the
+          ceiling above that appears to open into a passage.
+          <passage dir="UP" room="LowNSPassage" />
+          <passage dir="WEST" room="TwopitRoomEast" />
+          <passage dir="EAST" room="GreenChamber" />
+        </room>
+        <room name="GreenChamber" short="Green chamber">
+          You're in a small chamber lit by an eerie green light that
+          seems to emanate from an extremely narrow crack to the
+          north.  A dark corridor leads west.
+          <passage dir="WEST" room="EWPassage" key="LAMP" />
+          <passage dir="WEST" room="Darkness2" />
+          <passage dir="NORTH" room="TooNarrowForCrack" key="LAMP" />
+          <passage dir="NORTH" room="TooNarrowForCrack" key="BIRD" />
+          <passage dir="NORTH" room="TooNarrowForCrack" key="NUGGET" />
+          <passage dir="NORTH" room="TooNarrowForCrack" key="COINS" />
+          <passage dir="NORTH" room="EmeraldRoom" />
+        </room>
+        <room name="EmeraldRoom" short="Emerald room">
+          You're in a small chamber whose walls are studded with
+          glowing green gemstones.  A narrow crack leads south.
+          <passage dir="SOUTH" room="GreenChamber" />
+          <passage dir="OUT" room="GreenChamber" />
+        </room>
+        <room name="TooNarrowForCrack">
+          Something you're carrying won't fit through the crack.
+          <passage dir="FORCED" room="GreenChamber" />
+        </room>
+        <room name="Darkness2" short="Darkness">
+          It is now pitch dark.  If you proceed you will likely fall
+          into a pit.
+          <passage dir="EAST" room="GreenChamber" />
+        </room>
+        <room name="TwopitRoomEast" short="East end of Twopit Room">
+          You are at the east end of the Twopit Room.  The floor
+          here is littered with thin rock slabs, which make it easy
+          to descend the pits.  There is a path here bypassing the
+          pits to connect passages from east and west.  There are
+          holes all over, but the only big one is in the roof
+          directly over the west pit where you can't get to it.
+          <passage dir="EAST" room="EWPassage" />
+          <passage dir="WEST" room="TwopitRoomWest" />
+          <passage dir="DOWN" room="EastPit" />
+        </room>
+        <room name="TwopitRoomWest" short="West end of Twopit Room">
+          You are at the west end of the Twopit Room.  There is
+          a large hole above the pit at this end of the room.
+          <passage dir="EAST" room="TwopitRoomEast" />
+          <passage dir="WEST" room="MirrorRoom" />
+          <passage dir="DOWN" room="WestPit" />
+        </room>
+        <room name="EastPit" short="East pit">
+          You are at the bottom of the eastern pit in the Twopit
+          Room.
+          <passage dir="UP" room="TwopitRoomEast" />
+        </room>
+        <room name="WestPit" short="West pit">
+          You are at the bottom of the western pit in the Twopit
+          Room underneath a large hole in the ceiling.
+          <passage dir="UP" room="TwopitRoomWest" />
+          <passage dir="WATER" room="PlantAlreadyPicked" key="PLANT" />
+          <passage dir="WATER" room="Beanstalk" />
+        </room>
+        <room name="PlantAlreadyPicked">
+          You can't water the plant after you've picked it.  You
+          might try replanting it.
+          <passage dir="FORCED" room="WestPit" />
+        </room>
+        <room name="Beanstalk">
+          As you water the plant, it bursts into violent growth,
+          quickly filling the entire pit and pushing you upward
+          toward the hole in ceiling.  You scramble for your life
+          and manage to catch hold of the rock and pull yourself to
+          safety.  The plant then shrinks away as quickly as it grew.
+          <passage dir="FORCED" room="GiantRoom" />
+        </room>
+        <room name="GiantRoom" short="Giant room">
+          You are in the Giant Room.  The ceiling here is too high
+          up for your lamp to show it.  A cavernous passage leads
+          north.  There is a hole in the floor through which you
+          can see the Twopit room far below.
+          <passage dir="NORTH" room="Whirlpool" />
+          <passage dir="DOWN" room="TooBigADrop" />
+        </room>
+        <room name="TooBigADrop">
+          Without the plant, it's far too large a drop.
+          <passage dir="FORCED" room="GiantRoom" />
+        </room>
+        <room name="Whirlpool" short="Whirlpool">
+          You are in a magnificent cavern with a rushing stream,
+          which cascades over a sparkling waterfall into a roaring
+          whirlpool that disappears through a hole in the floor.
+          A passage exits to the south.
+          <passage dir="SOUTH" room="GiantRoom" />
+          <passage dir="DOWN" room="ThroughWhirlpool" />
+          <passage dir="SWIM" room="ThroughWhirlpool" />
+        </room>
+        <room name="ThroughWhirlpool">
+          You are dragged down, down, into the depths of the
+          whirlpool.  Just as you can no longer hold your breath,
+          you are shot out over a waterfall into the shallow end
+          of a large reservoir.  Gasping and sputtering, you crawl
+          weakly towards the shore.
+          <passage dir="FORCED" room="UndergroundLake" />
+        </room>
+        <room name="UndergroundLake" short="Underground lake">
+          You are at the edge of a large underground reservoir.
+          An opaque cloud of white mist fills the room and rises
+          rapidly upward.  The lake is fed by a stream, which
+          tumbles out of a hole in the wall about ten feet
+          overhead and splashes noisily into the water somewhere
+          within the mist.  The only exit is to the south.
+          <passage dir="SOUTH" room="MirrorRoom" />
+          <passage dir="OUT" room="MirrorRoom" />
+        </room>
+        <room name="MirrorRoom" short="Mirror room">
+          You are in a circular chamber about 25 feet across.  The
+          floor is covered by white mist seeping in from the north.
+          The walls extend upward for well over 100 feet.  Suspended
+          from some unseen point far above you, an enormous two-sided
+          mirror is hanging parallel to and midway between the canyon
+          walls.  A small window can be seen in the wall some fifty
+          feet up.  The canyon has exits to the north and east.
+          <passage dir="NORTH" room="UndergroundLake" />
+          <passage dir="EAST" room="TwopitRoomWest" />
+        </room>
+        <room name="Curtain1">
+          <passage dir="FORCED" room="Curtain2" key="NUGGET" />
+          <passage dir="FORCED" room="MissingTreasures" />
+        </room>
+        <room name="Curtain2">
+          <passage dir="FORCED" room="Curtain3" key="DIAMOND" />
+          <passage dir="FORCED" room="MissingTreasures" />
+        </room>
+        <room name="Curtain3">
+          <passage dir="FORCED" room="Curtain4" key="EMERALD" />
+          <passage dir="FORCED" room="MissingTreasures" />
+        </room>
+        <room name="Curtain4">
+          <passage dir="FORCED" room="Curtain5" key="EGGS" />
+          <passage dir="FORCED" room="MissingTreasures" />
+        </room>
+        <room name="Curtain5">
+          <passage dir="FORCED" room="Curtain6" key="CHEST" />
+          <passage dir="FORCED" room="MissingTreasures" />
+        </room>
+        <room name="Curtain6">
+          <passage dir="FORCED" room="Victory" key="COINS" />
+          <passage dir="FORCED" room="MissingTreasures" />
+        </room>
+        <room name="MissingTreasures">
+          You can pass through this curtain only if you're carrying
+          all the treasures.  You don't yet have all six.
+          <passage dir="FORCED" room="InsideBuilding" />
+        </room>
+        <room name="Victory">
+          You have collected all the treasures and are admitted to
+          the Adventurer's Hall of Fame.  Congratulations!
+          <passage dir="FORCED" room="EXIT" />
+        </room>
+        <synonym word="Q" definition="QUIT" />
+        <synonym word="L" definition="LOOK" />
+        <synonym word="CATCH" definition="TAKE" />
+        <synonym word="RELEASE" definition="DROP" />
+        <synonym word="I" definition="INVENTORY" />
+        <synonym word="N" definition="NORTH" />
+        <synonym word="S" definition="SOUTH" />
+        <synonym word="E" definition="EAST" />
+        <synonym word="W" definition="WEST" />
+        <synonym word="U" definition="UP" />
+        <synonym word="D" definition="DOWN" />
+        <synonym word="BACK" definition="OUT" />
+        <synonym word="GOLD" definition="NUGGET" />
+        <synonym word="BAG" definition="COINS" />
+        <synonym word="NEST" definition="EGGS" />
+        <synonym word="BOTTLE" definition="WATER" />
+      </game>
+    </div>
+  </body>
+</html>
